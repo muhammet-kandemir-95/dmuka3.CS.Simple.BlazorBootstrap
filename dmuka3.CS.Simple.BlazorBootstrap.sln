@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dmuka3.CS.Simple.BlazorBootstrap", "dmuka3.CS.Simple.BlazorBootstrap\dmuka3.CS.Simple.BlazorBootstrap.csproj", "{CD94F4B1-FB79-4BBD-BA77-DD09AF9243D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dmuka3.CS.Simple.BlazorBootstrap.TestApp", "dmuka3.CS.Simple.BlazorBootstrap.TestApp\dmuka3.CS.Simple.BlazorBootstrap.TestApp.csproj", "{91CB17E5-0E11-446F-8B76-63166E131C01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD94F4B1-FB79-4BBD-BA77-DD09AF9243D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD94F4B1-FB79-4BBD-BA77-DD09AF9243D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD94F4B1-FB79-4BBD-BA77-DD09AF9243D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD94F4B1-FB79-4BBD-BA77-DD09AF9243D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91CB17E5-0E11-446F-8B76-63166E131C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91CB17E5-0E11-446F-8B76-63166E131C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91CB17E5-0E11-446F-8B76-63166E131C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91CB17E5-0E11-446F-8B76-63166E131C01}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EB56F2CA-C2B6-418D-9F0B-BE6E3ED02C6E}
+	EndGlobalSection
+EndGlobal
