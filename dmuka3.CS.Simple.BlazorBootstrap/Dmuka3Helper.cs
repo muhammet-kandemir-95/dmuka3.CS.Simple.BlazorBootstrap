@@ -11,16 +11,28 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
     public static class Dmuka3Helper
     {
         #region Methods
-        public static async Task<T> RunJS<T>(IJSRuntime jSRuntime, string javascript)
+        #region JS
+        public static async Task RunJS(this IJSRuntime jSRuntime, string javascript)
+        {
+            await RunJS<object>(jSRuntime, javascript);
+        }
+
+        public static async Task<T> RunJS<T>(this IJSRuntime jSRuntime, string javascript)
         {
             return await jSRuntime.InvokeAsync<T>("Dmuka3.RunJS", new object[] { javascript });
         }
 
-        public static async Task AlertJS(IJSRuntime jSRuntime, string message)
+        public static async Task AlertJS(this IJSRuntime jSRuntime, string message)
         {
             message = message.Replace("'", "\\'").Replace("\n", " ");
             await RunJS<bool>(jSRuntime, $"alert('{message}');return true;");
         }
+
+        public static async Task SetLocation(this IJSRuntime jSRuntime, string location)
+        {
+            await RunJS<bool>(jSRuntime, $"location = '{location}';return true;");
+        }
+        #endregion
 
         public static void StateHasChanged(ComponentBase component)
         {

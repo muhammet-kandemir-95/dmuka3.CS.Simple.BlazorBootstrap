@@ -1,122 +1,47 @@
 ﻿@page "/"
-@inject IJSRuntime JSRuntime
 
 <h1>Hello, world!</h1>
 
-<Dmuka3Table Model="this.model">
+<Dmuka3Table Model="this.Model">
     <tr data-body data-id="{{id}}">
         <td class="test">{{id}}</td>
         <td>{{name}}</td>
+        <td>{{surname}}</td>
         <td>
-            <button dom-events="{ 'click': 'Show' }">Show</button>
+            <button dom-events="{
+                    'click' : function (id, row, e) {
+                        alert('{{id}} - {{name}}');
+                    }
+                }">
+                Show
+            </button>
         </td>
     </tr>
     <tr data-foot>
         <td>
             <input @oninput="(async e =>
                              {
-                                 searchId = (string)e.Value;
-                                 this.model.PageIndex = 0;
-                                 await this.model.RefreshAsync();
+                                 SearchId = (string)e.Value;
+                                 this.Model.PageIndex = 0;
+                                 await this.Model.RefreshAsync();
                              })" />
         </td>
         <td>
             <input @oninput="(async e =>
                              {
-                                 searchName = (string)e.Value;
-                                 this.model.PageIndex = 0;
-                                 await this.model.RefreshAsync();
+                                 SearchName = (string)e.Value;
+                                 this.Model.PageIndex = 0;
+                                 await this.Model.RefreshAsync();
+                             })" />
+        </td>
+        <td>
+            <input @oninput="(async e =>
+                             {
+                                 SearchSurname = (string)e.Value;
+                                 this.Model.PageIndex = 0;
+                                 await this.Model.RefreshAsync();
                              })" />
         </td>
         <td></td>
     </tr>
 </Dmuka3Table>
-
-@code {
-    private string searchId = "";
-    private string searchName = "";
-
-    private Dmuka3TableModel _model = null;
-    private Dmuka3TableModel model
-    {
-        get
-        {
-            if (this._model == null)
-                this._model = new Dmuka3TableModel(
-                    parent:this,
-                    uniqueKey: "id",
-                    columns: new Dmuka3TableModel.Column[]
-                    {
-                        new Dmuka3TableModel.Column("id", "User Id", Dmuka3TableModel.SortType.None),
-                        new Dmuka3TableModel.Column("name", "Name", Dmuka3TableModel.SortType.Asc),
-                        new Dmuka3TableModel.Column("#")
-                    },
-                    columnEventsAsync: new Dictionary<string, Func<Dmuka3TableModel, string, string, Task>>()
-                    {
-                        {
-                            "Show",
-                            async (m, id, json) =>
-                            {
-                                await Dmuka3Helper.AlertJS(JSRuntime, id + "--" + json);
-                            }
-                        }
-                    },
-                    onRefresh: (Dmuka3TableModel m) =>
-                    {
-                        var result = new object[0].Select(o => new
-                        {
-                            id = (int)o,
-                            name = (string)o,
-                            surname = (string)o
-                        }).ToList();
-
-                        for (int i = 0; i < 1000; i++)
-                        {
-                            result.Add(new
-                            {
-                                id = i / 4,
-                                name = "User Name " + (i / 4) + "_" + i,
-                                surname = "User Surname " + (i / 4) + "_" + i
-                            });
-                        }
-
-                        result = result
-                                    .Where(o => o.id.ToString().Contains(searchId))
-                                    .Where(o => o.name.Contains(searchName))
-                                    .Where(o => o.id.ToString().Contains(m.SearchValue) || o.name.Contains(m.SearchValue))
-                                    .ToList();
-                        var totalRowCount = result.Count;
-
-                        IOrderedEnumerable<object> ieresultOrder = null;
-                        foreach (var col in m.Columns)
-                        {
-                            if (col.Sortable == false)
-                                continue;
-
-                            if (ieresultOrder == null)
-                            {
-                                if (col.SortType == Dmuka3TableModel.SortType.Asc)
-                                    ieresultOrder = result.OrderBy(o => o.GetType().GetProperty(col.Name).GetValue(o));
-                                else if (col.SortType == Dmuka3TableModel.SortType.Desc)
-                                    ieresultOrder = result.OrderByDescending(o => o.GetType().GetProperty(col.Name).GetValue(o));
-                            }
-                            else
-                            {
-                                if (col.SortType == Dmuka3TableModel.SortType.Asc)
-                                    ieresultOrder = ieresultOrder.ThenBy(o => o.GetType().GetProperty(col.Name).GetValue(o));
-                                else if (col.SortType == Dmuka3TableModel.SortType.Desc)
-                                    ieresultOrder = ieresultOrder.ThenByDescending(o => o.GetType().GetProperty(col.Name).GetValue(o));
-                            }
-                        }
-                        if (ieresultOrder == null)
-                            ieresultOrder = result.OrderBy(o => true);
-
-                        var ieresult = ieresultOrder.Skip(m.PageIndex * m.RowCount).Take(m.RowCount);
-
-                        return (rows: ieresult, totalRowCount: totalRowCount);
-                    });
-
-            return this._model;
-        }
-    }
-}

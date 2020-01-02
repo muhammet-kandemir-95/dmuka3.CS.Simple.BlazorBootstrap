@@ -52,13 +52,18 @@ window.Dmuka3Table = {
 
                 $row.find('*[dom-events]').each(function (index, value) {
                     var $value = $(value);
-                    var events = JSON.parse($value.attr('dom-events').split('\'').join('"'));
+                    var events = new Function('return ' + $value.attr('dom-events'))();
                     $value.removeAttr('dom-events');
                     for (var event in events) {
                         var eventName = events[event];
 
                         $value.on(event, function () {
-                            window.Dmuka3.InvokeDotNet(null, null, tableId, 'dmuka3-table-dom-events', eventName, row[uniqueId], JSON.stringify(row));
+                            if (typeof eventName === 'string') {
+                                window.Dmuka3.InvokeDotNet(null, null, tableId, 'dmuka3-table-dom-events', eventName, row[uniqueId], JSON.stringify(row));
+                            } else {
+                                var args = [row[uniqueId], row, ...arguments];
+                                eventName.apply(this, args);
+                            }
                         });
                     }
                 });

@@ -1,10 +1,4 @@
-﻿@using System.Collections.Concurrent;
-@using System.Reflection;
-
-@implements IDisposable
-@inject IJSRuntime JSRuntime
-
-<div class="row mb-sm-2 mb-2">
+﻿<div class="row mb-sm-2 mb-2">
     <div class="col-md-6 pl-4 text-left">
         <label>
             @this.Model.RowCountLabel
@@ -21,17 +15,20 @@
             <option value="100">100</option>
         </select>
     </div>
-    <div class="col-md-6 pr-4 text-right">
-        <label>
-            @this.Model.SearchLabel
-        </label>
-        <input class="browser-default custom-input" style="width:auto;" @onchange="(async e =>
+    @if (this.Model.SearchEnable)
+    {
+        <div class="col-md-6 pr-4 text-right">
+            <label>
+                @this.Model.SearchLabel
+            </label>
+            <input class="browser-default custom-input" style="width:auto;" @onchange="(async e =>
                                                                                    {
                                                                                        this.Model.SearchValue = (string)e.Value;
                                                                                        this.Model.PageIndex = 0;
                                                                                        await this.RefreshAsync();
                                                                                    })" />
-    </div>
+        </div>
+    }
 </div>
 
 <div class="row">
@@ -73,10 +70,10 @@
         @for (int i = this.Model.PageStart; i <= this.Model.PageEnd; i++)
         {
             var cloneI = i;
-            if (cloneI < 0 || cloneI > this.Model.MaxPageIndex)
+            @if (cloneI < 0 || cloneI > this.Model.MaxPageIndex)
                 continue;
 
-            if (cloneI == this.Model.PageIndex)
+            @if (cloneI == this.Model.PageIndex)
             {
                 <button class="btn btn-primary" @onclick="(async e => { this.Model.PageIndex = cloneI; await this.RefreshAsync(); })">@(cloneI + 1)</button>
             }
@@ -103,125 +100,3 @@
         @ChildContent
     </tbody>
 </table>
-
-@code {
-    #region Variables
-    #region Parameters
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
-
-    [Parameter]
-    public Dmuka3TableModel Model { get; set; }
-
-    [Parameter]
-    public string Class { get; set; }
-
-    [Parameter]
-    public Dictionary<string, object> Attributes { get; set; }
-    #endregion
-
-    private static ulong stableId = 0;
-    private ulong tableId = 0;
-    private static ConcurrentDictionary<ulong, Dmuka3Table> instances = new ConcurrentDictionary<ulong, Dmuka3Table>();
-    #endregion
-
-    #region Methods
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            this.tableId = stableId++;
-            instances.AddOrUpdate(this.tableId, this, (id, val) =>
-            {
-                return this;
-            });
-
-            this.Model.Table = this;
-
-            await JSRuntime.InvokeAsync<bool>("Dmuka3Table.Load", new object[] { this.tableId });
-
-            await this.RefreshAsync();
-        }
-    }
-
-    public void Dispose()
-    {
-        instances.TryRemove(this.tableId, out _);
-    }
-
-    [JSInvokable("Dmuka3Table.JSEvent")]
-    public static async Task JSEvent(ulong tableId, string type, string name, string id, string json)
-    {
-        var instance = instances[tableId];
-        switch (type)
-        {
-            case "dmuka3-table-dom-events":
-                {
-                    Func<Dmuka3TableModel, string, string, Task> actionAsync;
-                    Action<Dmuka3TableModel, string, string> action;
-                    if (instance.Model.ColumnEvents != null && instance.Model.ColumnEvents.TryGetValue(name, out action))
-                    {
-                        action(instance.Model, id, json);
-
-                        Dmuka3Helper.StateHasChanged(instance.Model.Table);
-                        Dmuka3Helper.StateHasChanged(instance.Model.Parent);
-                    }
-                    else if (instance.Model.ColumnEventsAsync != null && instance.Model.ColumnEventsAsync.TryGetValue(name, out actionAsync))
-                    {
-                        await actionAsync(instance.Model, id, json);
-                        Dmuka3Helper.StateHasChanged(instance.Model.Table);
-                        Dmuka3Helper.StateHasChanged(instance.Model.Parent);
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    public async Task RefreshAsync()
-    {
-        var result = await this.Model.OnRefreshAsync(this.Model);
-
-        this.Model.TotalRowCount = result.totalRowCount;
-
-        var rows = new List<Dictionary<string, string>>();
-
-        foreach (var item in result.rows)
-        {
-            var type = item.GetType();
-            var props = type.GetProperties();
-
-            Dictionary<string, string> row = new Dictionary<string, string>();
-            foreach (var prop in props)
-                row.Add(prop.Name, (prop.GetValue(item) ?? "").ToString());
-
-            rows.Add(row);
-        }
-
-        await JSRuntime.InvokeAsync<bool>("Dmuka3Table.Fill", new object[] { this.tableId, rows });
-
-        this.StateHasChanged();
-    }
-
-    public void Refresh()
-    {
-        this.RefreshAsync().RunSynchronously();
-    }
-
-    private async Task clickColumn(Dmuka3TableModel.Column column)
-    {
-        if (column.Sortable == false)
-            return;
-
-        if (column.SortType == Dmuka3TableModel.SortType.None)
-            column.SortType = Dmuka3TableModel.SortType.Asc;
-        else if (column.SortType == Dmuka3TableModel.SortType.Asc)
-            column.SortType = Dmuka3TableModel.SortType.Desc;
-        else if (column.SortType == Dmuka3TableModel.SortType.Desc)
-            column.SortType = Dmuka3TableModel.SortType.None;
-
-        await this.RefreshAsync();
-    }
-    #endregion
-}
