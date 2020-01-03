@@ -402,7 +402,7 @@
             This function provides you to get datas by paging and filtering.
             </summary>
         </member>
-        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.#ctor(Microsoft.AspNetCore.Components.ComponentBase,System.String,dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.Column[],System.Int32,System.Boolean,System.Int32[],System.String,System.String,System.Boolean,System.Collections.Generic.Dictionary{System.String,System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel,System.String,System.String,System.Threading.Tasks.Task}},System.Collections.Generic.Dictionary{System.String,System.Action{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel,System.String,System.String}},System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel,System.Threading.Tasks.Task{System.ValueTuple{System.Collections.Generic.IEnumerable{System.Object},System.Int32}}},System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel,System.ValueTuple{System.Collections.Generic.IEnumerable{System.Object},System.Int32}})">
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.#ctor(Microsoft.AspNetCore.Components.ComponentBase,System.String,dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.Column[],System.Int32,System.Int32,System.Boolean,System.Int32[],System.String,System.String,System.Boolean,System.Collections.Generic.Dictionary{System.String,System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel,System.String,System.String,System.Threading.Tasks.Task}},System.Collections.Generic.Dictionary{System.String,System.Action{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel,System.String,System.String}},System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel,System.Threading.Tasks.Task{System.ValueTuple{System.Collections.Generic.IEnumerable{System.Object},System.Int32}}},System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel,System.ValueTuple{System.Collections.Generic.IEnumerable{System.Object},System.Int32}})">
             <summary>
             This model is used for Dmuka3Table.razor to receive and send datas between Dmuka3Table and other component which uses Dmuka3Table.
             </summary>
@@ -418,6 +418,10 @@
             </param>
             <param name="pageIndex">
             Which page is browser user on?
+            </param>
+            <param name="rowCount">
+            Max row count for each page.
+            This is filled by user or while instance.
             </param>
             <param name="singleSort">
             This means if you set value to true, it avoid multiple sorting.

@@ -22,11 +22,32 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         [Parameter]
         public RenderFragment ChildContent { get; set; }
 
+        private Dmuka3TableModel _model = null;
+        /*
+                this.Model.Table = this;
+*/
         /// <summary>
         /// <see cref="Dmuka3TableModel"/> is for communicating.
         /// </summary>
         [Parameter]
-        public Dmuka3TableModel Model { get; set; }
+        public Dmuka3TableModel Model
+        {
+            get
+            {
+                return this._model;
+            }
+            set
+            {
+                if (value == null)
+                    throw new NullReferenceException();
+
+                if (value.Table != this && value.Table != null)
+                    throw new Exception("This model has already been used before!");
+
+                this._model = value;
+                this._model.Table = this;
+            }
+        }
 
         /// <summary>
         /// Table's css classes on "class" attribute.
@@ -34,11 +55,25 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         [Parameter]
         public string Class { get; set; }
 
+        private Dictionary<string, object> _attributes = new Dictionary<string, object>();
         /// <summary>
         /// Table's attributes.
         /// </summary>
         [Parameter]
-        public Dictionary<string, object> Attributes { get; set; }
+        public Dictionary<string, object> Attributes
+        {
+            get
+            {
+                return this._attributes;
+            }
+            set
+            {
+                if (value == null)
+                    throw new NullReferenceException();
+
+                this._attributes = value;
+            }
+        }
 
         /// <summary>
         /// Javascript runtime.
@@ -86,8 +121,6 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         {
             if (firstRender)
             {
-                this.Model.Table = this;
-
                 await JSRuntime.InvokeAsync<bool>("Dmuka3Table.Load", new object[] { this.tableId });
 
                 await this.RefreshAsync();

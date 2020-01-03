@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,7 +62,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
 
             #region Constructors
             /// <summary>
-            /// If you give just a description, it means this column is not sortable and doesn't come from a property.
+            /// If you give only a description, it means this column is not sortable and doesn't come from a property.
             /// </summary>
             /// <param name="description">
             /// Description of property which is shown on frontend.
@@ -74,7 +75,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
             }
 
             /// <summary>
-            /// Create a column which uses source's datas.
+            /// Create a column which is used for datas.
             /// </summary>
             /// <param name="name">
             /// What is property's name which is coming from source.
@@ -89,6 +90,12 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
             /// </param>
             public Column(string name, string description, SortType sortType)
             {
+                if (string.IsNullOrEmpty(name))
+                    throw new ArgumentNullException($"{nameof(name)} must be filled!");
+
+                if (name.Contains(" "))
+                    throw new ArgumentNullException($"{nameof(name)} must not contain space!");
+
                 this.Sortable = true;
                 this.Name = name;
                 this.Description = description;
@@ -108,11 +115,29 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// </summary>
         public Dmuka3Table Table { get; internal set; }
 
+        private string _uniqueKey = null;
         /// <summary>
         /// What is the unique key(like ID) in a row?
         /// This is a property name which must be in row.
         /// </summary>
-        public string UniqueKey { get; internal set; }
+        public string UniqueKey
+        {
+            get
+            {
+                return this._uniqueKey;
+            }
+            internal set
+            {
+                if (value == null)
+                    throw new NullReferenceException();
+                if (string.IsNullOrEmpty(value))
+                    throw new Exception($"{nameof(UniqueKey)} must be filled!");
+                if (value.Contains(" "))
+                    throw new Exception($"{nameof(UniqueKey)} must not contain space!");
+
+                this._uniqueKey = value;
+            }
+        }
         /// <summary>
         /// Table's columns.
         /// </summary>
@@ -122,10 +147,24 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// This decides what is going to happen when user clicks a column.
         /// </summary>
         public bool SingleSort { get; internal set; }
+        private int _pageIndex = 0;
         /// <summary>
         /// Which page is browser user on?
         /// </summary>
-        public int PageIndex { get; set; }
+        public int PageIndex
+        {
+            get
+            {
+                return this._pageIndex;
+            }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException($"{nameof(PageIndex)}must be positive!");
+
+                this._pageIndex = value;
+            }
+        }
         /// <summary>
         /// PageIndex limit.
         /// </summary>
@@ -136,19 +175,75 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
                 return Math.Max(0, (this.TotalRowCount / RowCount + (this.TotalRowCount % RowCount == 0 ? 0 : 1)) - 1);
             }
         }
+        private int _rowCount = 0;
         /// <summary>
         /// Max row count for each page.
         /// This is filled by user or while instance.
         /// </summary>
-        public int RowCount { get; internal set; }
+        public int RowCount
+        {
+            get
+            {
+                return this._rowCount;
+            }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException($"{nameof(RowCount)} must be positive!");
+                if (this.RowCountOptions.Any(o => o == value) == false)
+                    throw new Exception($"{nameof(RowCountOptions)} doesn't have {value}!");
+                
+                this._rowCount = value;
+            }
+        }
+        private static int[] __rowCountOptionsStatic = new int[] { 10, 20, 50, 100 };
         /// <summary>
         /// You can change default <see cref="RowCountOptions"/> Options by setting this.
         /// </summary>
-        public static int[] RowCountOptionsStatic { get; set; } = new int[] { 10, 20, 50, 100 };
+        public static int[] RowCountOptionsStatic
+        {
+            get
+            {
+                return __rowCountOptionsStatic;
+            }
+            set
+            {
+                if (value == null)
+                    throw new NullReferenceException();
+                if (value.Length == 0)
+                    throw new Exception($"{nameof(RowCountOptionsStatic)} must have at least a item!");
+                if (value.Any(o => o <= 0))
+                    throw new Exception($"{nameof(RowCountOptionsStatic)} must not have a item which is less than 1!");
+                if (value.GroupBy(o => o).Any(o => o.Count() > 1))
+                    throw new Exception($"{nameof(RowCountOptionsStatic)} must not have a repetitive item!");
+
+                __rowCountOptionsStatic = value;
+            }
+        }
+        private int[] _rowCountOptions = null;
         /// <summary>
         /// How many options are there for user to change row count.
         /// </summary>
-        public int[] RowCountOptions { get; internal set; }
+        public int[] RowCountOptions
+        {
+            get
+            {
+                return this._rowCountOptions;
+            }
+            internal set
+            {
+                if (value == null)
+                    throw new NullReferenceException();
+                if (value.Length == 0)
+                    throw new Exception($"{nameof(RowCountOptions)} must have at least a item!");
+                if (value.Any(o => o <= 0))
+                    throw new Exception($"{nameof(RowCountOptions)} must not have a item which is less than 1!");
+                if (value.GroupBy(o => o).Any(o => o.Count() > 1))
+                    throw new Exception($"{nameof(RowCountOptions)} must not have a repetitive item!");
+
+                this._rowCountOptions = value;
+            }
+        }
         /// <summary>
         /// You can change default <see cref="RowCountLabel"/> Label by setting this.
         /// </summary>
@@ -321,6 +416,10 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// <param name="pageIndex">
         /// Which page is browser user on?
         /// </param>
+        /// <param name="rowCount">
+        /// Max row count for each page.
+        /// This is filled by user or while instance.
+        /// </param>
         /// <param name="singleSort">
         /// This means if you set value to true, it avoid multiple sorting.
         /// This decides what is going to happen when user clicks a column.
@@ -354,6 +453,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
             string uniqueKey,
             Column[] columns,
             int pageIndex = 0,
+            int rowCount = -1,
             bool singleSort = true,
             int[] rowCountOptions = null,
             string rowCountLabel = null,
@@ -371,7 +471,10 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
             this.SingleSort = singleSort;
             this.PageIndex = pageIndex;
             this.RowCountOptions = rowCountOptions ?? RowCountOptionsStatic;
-            this.RowCount = this.RowCountOptions[0];
+            if (rowCount != -1)
+                this.RowCount = rowCount;
+            else
+                this.RowCount = this.RowCountOptions[0];
             if (string.IsNullOrEmpty(rowCountLabel))
                 this.RowCountLabel = RowCountLabelStatic;
             else

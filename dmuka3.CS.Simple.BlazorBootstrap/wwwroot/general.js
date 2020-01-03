@@ -29,6 +29,7 @@ window.Dmuka3Table = {
      * To fill table.
      * @param {any} tableId Dmuka3Table's unique id.
      * @param {any} rows New rows.
+     * @returns {boolean} Result.
      */
     'Fill': function (tableId, rows) {
         var $table = $('#dmuka3-table-' + tableId);
@@ -95,6 +96,7 @@ window.Dmuka3Table = {
     /**
      * To do somethings which are neccessary while loading.
      * @param {any} tableId Dmuka3Table's unique id.
+     * @returns {boolean} Result.
      */
     'Load': function (tableId) {
         var $table = $('#dmuka3-table-' + tableId);
