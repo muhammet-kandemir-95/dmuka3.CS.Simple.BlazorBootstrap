@@ -1,4 +1,6 @@
-﻿<div class="row mb-sm-2 mb-2" style="@(this.Model.LoadingStyle)">
+﻿<!-- BEGIN Row Count and Search -->
+<div class="row mb-sm-2 mb-2" style="@(this.Model.LoadingStyle)">
+    <!-- BEGIN Row Count -->
     <div class="col-md-6 pl-4 text-left">
         <label>
             @this.Model.RowCountLabel
@@ -15,6 +17,8 @@
             }
         </select>
     </div>
+    <!-- END Row Count -->
+    <!-- BEGIN Search -->
     @if (this.Model.SearchEnable)
     {
         <div class="col-md-6 pr-4 text-right">
@@ -29,11 +33,14 @@
                                                                                    })" />
         </div>
     }
+    <!-- END Search -->
 </div>
-
+<!-- END Row Count and Search -->
+<!-- BEGIN Table -->
 <div class="row" style="@(this.Model.LoadingStyle)">
     <div class="col-md-12" style="max-width:100%;overflow:auto;">
         <table id="@("dmuka3-table-" + this.tableId)" class="table @this.Class" @attributes="this.Attributes" data-unique-key="@this.Model.UniqueKey" style="margin-bottom:0px;">
+            <!-- BEGIN Header -->
             <thead>
                 <tr>
                     @foreach (var column in this.Model.Columns)
@@ -41,25 +48,32 @@
                         <th @onclick="@(async e => { await clickColumn(column); })">
                             @column.Description @if (column.SortType == Dmuka3TableModel.SortType.Asc)
                             {
-                                <img src="_content/dmuka3.CS.Simple.BlazorBootstrap/assets/images/angle-arrow-down.png" />
+                                <img src="_content/dmuka3.CS.Simple.BlazorBootstrap/assets/images/10x10_angle-arrow-down.png" />
                             }
                             else if (column.SortType == Dmuka3TableModel.SortType.Desc)
                             {
-                                <img src="_content/dmuka3.CS.Simple.BlazorBootstrap/assets/images/angle-arrow-up.png" />
+                                <img src="_content/dmuka3.CS.Simple.BlazorBootstrap/assets/images/10x10_angle-arrow-up.png" />
                             }
                         </th>
                     }
                 </tr>
             </thead>
+            <!-- END Header -->
+            <!-- BEGIN Body -->
             <tbody>
             </tbody>
+            <!-- END Body -->
+            <!-- BEGIN Footer -->
             <tfoot>
             </tfoot>
+            <!-- END Footer -->
         </table>
     </div>
 </div>
-
+<!-- END Table -->
+<!-- BEGIN Paging -->
 <div class="row" style="@(this.Model.LoadingStyle)">
+    <!-- BEGIN Information about Current Page -->
     <div class="col-md-3 text-left text-nowrap pl-4 mb-sm-2">
         @if (this.Model.TotalRowCount > 0)
         {
@@ -70,17 +84,22 @@
             <b>0</b>@(" / 0")
         }
     </div>
+    <!-- END Information about Current Page -->
+    <!-- BEGIN Paging Buttons -->
     <div class="col-lg-5 col-md-9 text-right pr-4">
+        <!-- BEGIN Previous Page -->
         @if (this.Model.PreviousPageEnable)
         {
-            <button class="btn btn-primary" style="box-shadow:none;outline:0px;" @onclick="(async e => { this.Model.PageIndex--; await this.RefreshAsync(); })"><img src="_content/dmuka3.CS.Simple.BlazorBootstrap/assets/images/angle-arrow-left.png" /></button>
+            <button class="btn btn-primary" style="box-shadow:none;outline:0px;" @onclick="(async e => { this.Model.PageIndex--; await this.RefreshAsync(); })"><img src="_content/dmuka3.CS.Simple.BlazorBootstrap/assets/images/10x10_angle-arrow-left.png" /></button>
         }
-
+        <!-- END Previous Page -->
+        <!-- BEGIN Go First Page -->
         @if (this.Model.GoFirstPageEnable)
         {
             <button class="btn btn-info" style="box-shadow:none;outline:0px;" @onclick="(async e => { this.Model.PageIndex = 0; await this.RefreshAsync(); })">1</button>
         }
-
+        <!-- END Go First Page -->
+        <!-- BEGIN Number Buttons except Go First Page and Go Last Page -->
         @for (int i = this.Model.PageStart; i <= this.Model.PageEnd; i++)
         {
             var cloneI = i;
@@ -96,21 +115,27 @@
                 <button class="btn btn-secondary" style="box-shadow:none;outline:0px;" @onclick="(async e => { this.Model.PageIndex = cloneI; await this.RefreshAsync(); })">@(cloneI + 1)</button>
             }
         }
-
+        <!-- END Number Buttons except Go First Page and Go Last Page -->
+        <!-- BEGIN Go Last Page -->
         @if (this.Model.GoLastPageEnable)
         {
             <button class="btn btn-info" style="box-shadow:none;outline:0px;" @onclick="(async e => { this.Model.PageIndex = this.Model.MaxPageIndex; await this.RefreshAsync(); })">@(this.Model.MaxPageIndex + 1)</button>
         }
-
+        <!-- END Go Last Page -->
+        <!-- BEGIN Next Page -->
         @if (this.Model.NextPageEnable)
         {
-            <button class="btn btn-primary" style="box-shadow:none;outline:0px;" @onclick="(async e => { this.Model.PageIndex++; await this.RefreshAsync(); })"><img src="_content/dmuka3.CS.Simple.BlazorBootstrap/assets/images/angle-arrow-right.png" /></button>
+            <button class="btn btn-primary" style="box-shadow:none;outline:0px;" @onclick="(async e => { this.Model.PageIndex++; await this.RefreshAsync(); })"><img src="_content/dmuka3.CS.Simple.BlazorBootstrap/assets/images/10x10_angle-arrow-right.png" /></button>
         }
+        <!-- END Next Page -->
     </div>
+    <!-- END Paging Buttons -->
 </div>
-
+<!-- END Paging -->
+<!-- BEGIN Clones -->
 <table style="display:none">
     <tbody id="@("dmuka3-table-clone-" + this.tableId)">
         @ChildContent
     </tbody>
 </table>
+<!-- END Clones -->

@@ -20,7 +20,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap.TestApp.Models
 				Rows.Add(new TestDataModel()
 				{
 					id = i / 4,
-					name = "User Name<b>sdf</b> " + (i / 4) + "_" + i,
+					name = "User Name " + (i / 4) + "_" + i,
 					surname = "User Surname " + (i / 4) + "_" + i
 				});
 			}

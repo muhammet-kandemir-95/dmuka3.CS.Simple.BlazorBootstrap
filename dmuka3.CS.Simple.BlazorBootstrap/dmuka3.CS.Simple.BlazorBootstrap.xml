@@ -48,7 +48,7 @@
         </member>
         <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Helper.SetLocation(Microsoft.JSInterop.IJSRuntime,System.String)">
             <summary>
-            
+            Change location on browser using setting "location".
             </summary>
             <param name="jSRuntime">
             JSRuntime instance.
