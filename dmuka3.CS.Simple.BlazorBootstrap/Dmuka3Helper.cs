@@ -63,7 +63,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         }
 
         /// <summary>
-        /// 
+        /// Change location on browser using setting "location".
         /// </summary>
         /// <param name="jSRuntime">
         /// JSRuntime instance.
