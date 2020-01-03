@@ -1,4 +1,4 @@
-﻿using dmuka3.CS.Simple.BlazorBootstrap.TestApp.Models;
+﻿using dmuka3.CS.Simple.BlazorBootstrap.TestServerApp.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace dmuka3.CS.Simple.BlazorBootstrap.TestApp.Pages
+namespace dmuka3.CS.Simple.BlazorBootstrap.TestServerApp.Pages
 {
     public partial class Index : ComponentBase
     {
@@ -33,6 +33,16 @@ namespace dmuka3.CS.Simple.BlazorBootstrap.TestApp.Pages
                             new Dmuka3TableModel.Column("name", "Name", Dmuka3TableModel.SortType.Asc),
                             new Dmuka3TableModel.Column("surname", "Surname", Dmuka3TableModel.SortType.None),
                             new Dmuka3TableModel.Column("#")
+                        },
+                        columnEventsAsync: new Dictionary<string, Func<Dmuka3TableModel, string, string, Task>>()
+                        {
+                            {
+                                "test",
+                                async (m, id, json) => 
+                                {
+                                    await Dmuka3Helper.AlertJS(this.JSRuntime, id);
+                                }
+                            }
                         },
                         onRefreshAsync: async (Dmuka3TableModel m) =>
                         {

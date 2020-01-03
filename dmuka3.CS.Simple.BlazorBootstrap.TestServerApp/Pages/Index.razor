@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-<h1>Web Assembly!</h1>
+<h1>Server App!</h1>
 
 <Dmuka3Table Model="this.Model">
     <tr data-body data-id="{{id}}">
@@ -9,9 +9,7 @@
         <td>{{surname}}</td>
         <td>
             <button dom-events="{
-                    'click' : function (id, row, e) {
-                        alert('{{id}} - {{name}}');
-                    }
+                    'click' : 'test'
                 }">
                 Show
             </button>

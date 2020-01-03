@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace dmuka3.CS.Simple.BlazorBootstrap.TestApp.Models
+namespace dmuka3.CS.Simple.BlazorBootstrap.TestServerApp.Models
 {
 	public class TestDataModel
 	{

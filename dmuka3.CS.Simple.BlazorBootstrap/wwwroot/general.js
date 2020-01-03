@@ -25,6 +25,11 @@ window.Dmuka3 = {
 
 // #region Dmuka3Table
 window.Dmuka3Table = {
+    /**
+     * To fill table.
+     * @param {any} tableId Dmuka3Table's unique id.
+     * @param {any} rows New rows.
+     */
     'Fill': function (tableId, rows) {
         var $table = $('#dmuka3-table-' + tableId);
         var uniqueId = $table.attr('data-unique-key');
@@ -42,10 +47,14 @@ window.Dmuka3Table = {
             var row = rows[i];
             (function (row) {
                 var $row = $cloneRowBody.clone();
+                $row.removeAttr('data-body');
                 var rowHtml = $row[0].outerHTML;
 
                 for (var col in row) {
-                    rowHtml = rowHtml.split('{{' + col + '}}').join(row[col]);
+                    var $colDataAsText = $('<div></div>');
+                    $colDataAsText.text(row[col]);
+
+                    rowHtml = rowHtml.split('{{' + col + '}}').join($colDataAsText.html());
                 }
 
                 $row = $(rowHtml);
@@ -55,16 +64,25 @@ window.Dmuka3Table = {
                     var events = new Function('return ' + $value.attr('dom-events'))();
                     $value.removeAttr('dom-events');
                     for (var event in events) {
-                        var eventName = events[event];
+                        var eventValue = events[event];
 
-                        $value.on(event, function () {
-                            if (typeof eventName === 'string') {
-                                window.Dmuka3.InvokeDotNet(null, null, tableId, 'dmuka3-table-dom-events', eventName, row[uniqueId], JSON.stringify(row));
+                        if (event === 'load') {
+                            if (typeof eventValue === 'string') {
+                                window.Dmuka3.InvokeDotNet(null, null, tableId, 'dmuka3-table-dom-events', eventValue, row[uniqueId], JSON.stringify(row));
                             } else {
-                                var args = [row[uniqueId], row, ...arguments];
-                                eventName.apply(this, args);
+                                var args = [row[uniqueId], row];
+                                eventValue.apply(this, args);
                             }
-                        });
+                        } else {
+                            $value.on(event, function () {
+                                if (typeof eventValue === 'string') {
+                                    window.Dmuka3.InvokeDotNet(null, null, tableId, 'dmuka3-table-dom-events', eventValue, row[uniqueId], JSON.stringify(row));
+                                } else {
+                                    var args = [row[uniqueId], row, ...arguments];
+                                    eventValue.apply(this, args);
+                                }
+                            });
+                        }
                     }
                 });
 
@@ -74,8 +92,17 @@ window.Dmuka3Table = {
 
         return true;
     },
+    /**
+     * To do somethings which are neccessary while loading.
+     * @param {any} tableId Dmuka3Table's unique id.
+     */
     'Load': function (tableId) {
         var $table = $('#dmuka3-table-' + tableId);
+        if ($table.data('__dmuka3_isloaded') === true) {
+            return;
+        }
+        $table.data('__dmuka3_isloaded', true);
+
         var $tableFoot = $table.find('>tfoot');
 
         var $cloneRow = $('#dmuka3-table-clone-' + tableId);
