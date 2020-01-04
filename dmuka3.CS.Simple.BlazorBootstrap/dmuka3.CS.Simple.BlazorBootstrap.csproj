@@ -3,6 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>This library provides you to make somethings(Making a table, a mask input, a number input, ...) easily on Bootstrap 4+.</Description>
+    <Copyright>https://github.com/muhammet-kandemir-95</Copyright>
+    <PackageProjectUrl>https://github.com/muhammet-kandemir-95/dmuka3.CS.Simple.BlazorBootstrap</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/muhammet-kandemir-95/dmuka3.CS.Simple.BlazorBootstrap</RepositoryUrl>
+    <PackageTags>c#,core,blazor,simple,blazorbootstrap</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
