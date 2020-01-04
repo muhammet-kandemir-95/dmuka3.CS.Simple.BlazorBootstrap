@@ -66,6 +66,110 @@
             Which component will be used?
             </param>
         </member>
+        <member name="T:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask">
+            <summary>
+            Dmuka3Mask component.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.Class">
+            <summary>
+            Mask's css classes on "class" attribute.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.Attributes">
+            <summary>
+            Mask's attributes.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.Pattern">
+            <summary>
+            ?    = All Characters
+            <para></para>
+            9    = Only Number
+            <para></para>
+            a, A = Only Letter Insensitive
+            <para></para>
+            l    = Only Lower Letter
+            <para></para>
+            L    = Only Upper Letter
+            <para></para>
+            Examples = ["99.99.9999 99:99", "L-99", "??LL99-AAA", ...]
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.RequiredFilling">
+            <summary>
+            Required completely filling.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.DefaultValue">
+            <summary>
+            Input's default value for first instance.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.OnChangeAsync">
+            <summary>
+            Change event.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.OnChange">
+            <summary>
+            Change event.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.JSRuntime">
+            <summary>
+            Javascript runtime.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.Value">
+            <summary>
+            Input's value.
+            </summary>
+        </member>
+        <member name="F:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.smaskId">
+            <summary>
+            It is for managing masks' ids.
+            </summary>
+        </member>
+        <member name="F:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.maskId">
+            <summary>
+            Mask's unique id.
+            </summary>
+        </member>
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.#ctor">
+            <summary>
+            Dmuka3Table component.
+            </summary>
+        </member>
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.OnAfterRenderAsync(System.Boolean)">
+            <summary>
+            OnAfterRenderAsync method.
+            </summary>
+            <param name="firstRender"></param>
+            <returns></returns>
+        </member>
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.ValidateAsync">
+            <summary>
+            To validate last value by pattern.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.onChange(Microsoft.AspNetCore.Components.ChangeEventArgs)">
+            <summary>
+            Input's change event.
+            </summary>
+            <param name="e">Event parameter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.SetValueAsync(System.String)">
+            <summary>
+            Set a value.
+            </summary>
+            <param name="value">
+            Input's value.
+            </param>
+            <returns></returns>
+        </member>
         <member name="T:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Table">
             <summary>
             Dmuka3Table component.
@@ -156,11 +260,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Table.Refresh">
-            <summary>
-            This function provides to fill table by datas which are sended by developer who is using Dmuka3.
-            </summary>
-        </member>
         <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Table.clickColumn(dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.Column)">
             <summary>
             To set next sort type to column.
@@ -224,7 +323,7 @@
         </member>
         <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.Column.#ctor(System.String)">
             <summary>
-            If you give just a description, it means this column is not sortable and doesn't come from a property.
+            If you give only a description, it means this column is not sortable and doesn't come from a property.
             </summary>
             <param name="description">
             Description of property which is shown on frontend.
@@ -232,7 +331,7 @@
         </member>
         <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.Column.#ctor(System.String,System.String,dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.SortType)">
             <summary>
-            Create a column which uses source's datas.
+            Create a column which is used for datas.
             </summary>
             <param name="name">
             What is property's name which is coming from source.
@@ -457,11 +556,6 @@
             Refresh table rows.
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.Refresh">
-            <summary>
-            Refresh table rows.
-            </summary>
         </member>
     </members>
 </doc>

@@ -192,7 +192,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
                     throw new ArgumentOutOfRangeException($"{nameof(RowCount)} must be positive!");
                 if (this.RowCountOptions.Any(o => o == value) == false)
                     throw new Exception($"{nameof(RowCountOptions)} doesn't have {value}!");
-                
+
                 this._rowCount = value;
             }
         }
@@ -384,17 +384,13 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
             {
                 this.onRefresh = value;
                 if (this.onRefresh == null)
-                    return;
-
-                this.OnRefreshAsync = async (model) =>
-                {
-                    var result = await Task.Run<(IEnumerable<object> rows, int totalRowCount)>(() =>
+                    this.OnRefreshAsync = null;
+                else
+                    this.OnRefreshAsync = async (model) =>
                     {
                         return this.onRefresh(model);
-                    });
+                    };
 
-                    return result;
-                };
             }
         }
         #endregion
@@ -486,8 +482,10 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
             this.SearchEnable = searchEnable;
             this.ColumnEventsAsync = columnEventsAsync;
             this.ColumnEvents = columnEvents;
-            this.OnRefreshAsync = onRefreshAsync;
-            this.OnRefresh = onRefresh;
+            if (onRefreshAsync != null)
+                this.OnRefreshAsync = onRefreshAsync;
+            if (onRefresh != null)
+                this.OnRefresh = onRefresh;
         }
         #endregion
 
@@ -499,14 +497,6 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         public async Task RefreshAsync()
         {
             await this.Table.RefreshAsync();
-        }
-
-        /// <summary>
-        /// Refresh table rows.
-        /// </summary>
-        public void Refresh()
-        {
-            this.Table.Refresh();
         }
         #endregion
     }

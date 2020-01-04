@@ -29,7 +29,7 @@ window.Dmuka3Table = {
      * To fill table.
      * @param {any} tableId Dmuka3Table's unique id.
      * @param {any} rows New rows.
-     * @returns {boolean} Result.
+     * @returns {null} Result.
      */
     'Fill': function (tableId, rows) {
         var $table = $('#dmuka3-table-' + tableId);
@@ -90,20 +90,18 @@ window.Dmuka3Table = {
                 $tableBody.append($row);
             })(row);
         }
-
-        return true;
     },
     /**
      * To do somethings which are neccessary while loading.
      * @param {any} tableId Dmuka3Table's unique id.
-     * @returns {boolean} Result.
+     * @returns {null} Result.
      */
     'Load': function (tableId) {
         var $table = $('#dmuka3-table-' + tableId);
-        if ($table.data('__dmuka3_isloaded') === true) {
-            return;
+        if ($table.data('__dmuka3table_isloaded') === true) {
+            return true;
         }
-        $table.data('__dmuka3_isloaded', true);
+        $table.data('__dmuka3table_isloaded', true);
 
         var $tableFoot = $table.find('>tfoot');
 
@@ -115,8 +113,147 @@ window.Dmuka3Table = {
         }
 
         $tableFoot.append($cloneRowFoot);
+    }
+};
+// #endregion
 
-        return true;
+// #region Dmuka3Mask
+window.Dmuka3Mask = {
+    'Set': function (maskId, value) {
+        var $mask = $('#dmuka3-mask-' + maskId);
+        $mask.val(value);
+    },
+    'Validate': function (maskId) {
+        var $mask = $('#dmuka3-mask-' + maskId);
+        $mask.data('__dmuka3mask_inputEvent')();
+    },
+    'Load': function (maskId, pattern, requiredFilling, value) {
+        var $mask = $('#dmuka3-mask-' + maskId);
+        if ($mask.data('__dmuka3mask_isloaded') === true) {
+            return;
+        }
+        $mask.data('__dmuka3mask_isloaded', true);
+
+        $mask.val(value);
+
+        var inputEvent = function (e) {
+            var val = this.value;
+            var newVal = '';
+            var cursorIndex = this.selectionStart;
+            var countMaskCharacter = 0;
+
+            var maskIndex = 0;
+            for (var i = 0; i < val.length; i++) {
+                if (maskIndex >= pattern.length) {
+                    break;
+                }
+
+                var c = val[i];
+                var mask = pattern[maskIndex];
+                while (maskIndex !== null) {
+                    if (mask !== '?' && mask !== '9' && mask !== 'a' && mask !== 'A' && mask !== 'l' && mask !== 'L') {
+                        newVal += mask;
+
+                        if (c === mask) {
+                            i++;
+
+                            if (i >= val.length) {
+                                break;
+                            }
+
+                            c = val[i];
+                        } else {
+                            if (i === cursorIndex - 1) {
+                                countMaskCharacter++;
+                            }
+                        }
+
+                        maskIndex++;
+
+                        if (maskIndex >= pattern.length) {
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
+
+                    mask = pattern[maskIndex];
+                }
+
+                if (i >= val.length) {
+                    break;
+                }
+
+                if (maskIndex >= pattern.length) {
+                    break;
+                }
+
+                mask = pattern[maskIndex];
+
+                if (mask === '9') {
+                    if (c >= '0' && c <= '9') {
+                        newVal += c;
+                        maskIndex++;
+                    }
+                } else if (mask === 'a' || mask === 'A') {
+                    if (c.toUpperCase() !== c || c.toLowerCase() !== c) {
+                        newVal += c;
+                        maskIndex++;
+                    }
+                } else if (mask === '?') {
+                    newVal += c;
+                    maskIndex++;
+                } else if (mask === 'l') {
+                    if (c.toUpperCase() !== c && c.toLowerCase() === c) {
+                        newVal += c;
+                        maskIndex++;
+                    }
+                } else if (mask === 'L') {
+                    if (c.toLowerCase() !== c && c.toUpperCase() === c) {
+                        newVal += c;
+                        maskIndex++;
+                    }
+                }
+            }
+
+            if (val.length === cursorIndex) {
+                cursorIndex += 1;
+            }
+            cursorIndex += countMaskCharacter;
+
+            this.value = newVal;
+            if (this.value.length > cursorIndex) {
+                this.selectionStart = cursorIndex;
+                this.selectionEnd = cursorIndex;
+            }
+        };
+        $mask.data('__dmuka3mask_inputEvent', function () {
+            inputEvent.call($mask[0], { preventDefault: function () { } });
+        });
+        $mask.data('__dmuka3mask_inputEvent')();
+
+        $mask.on('input', inputEvent);
+
+        if (requiredFilling === true) {
+            if ($mask.val().length !== pattern.length) {
+                $mask.data('__dmuka3mask_previousValue', this.value);
+                $mask.val('');
+            }
+
+            $mask.on('focusout', function (e) {
+                if (this.value.length !== pattern.length) {
+                    $mask.data('__dmuka3mask_previousValue', this.value);
+                    this.value = '';
+                    $mask.trigger('change');
+                }
+            }).on('focus', function (e) {
+                if (this.value.length === 0) {
+                    this.value = $mask.data('__dmuka3mask_previousValue');
+                    this.selectionStart = this.value.length;
+                    this.selectionEnd = this.value.length;
+                }
+            });
+        }
     }
 };
 // #endregion

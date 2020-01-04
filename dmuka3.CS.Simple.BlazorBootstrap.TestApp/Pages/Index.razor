@@ -45,3 +45,11 @@
         <td></td>
     </tr>
 </Dmuka3Table>
+
+<div>@test 111</div>
+
+<Dmuka3Mask Pattern="99.99.9999 99:99:99" DefaultValue="11.08.2019 00:00:00" RequiredFilling="true" OnChange="(m => { this.test = m.Value; this.StateHasChanged(); })"></Dmuka3Mask>
+
+@code {
+    string test = "";
+}

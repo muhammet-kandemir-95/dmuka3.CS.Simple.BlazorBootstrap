@@ -17,6 +17,8 @@ namespace dmuka3.CS.Simple.BlazorBootstrap.TestServerApp.Pages
         protected string SearchName = "";
         protected string SearchSurname = "";
 
+        public Dmuka3Mask mask;
+
         protected Dmuka3TableModel _model = null;
         protected Dmuka3TableModel Model
         {

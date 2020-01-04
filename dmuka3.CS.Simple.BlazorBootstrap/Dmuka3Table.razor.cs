@@ -23,9 +23,6 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         public RenderFragment ChildContent { get; set; }
 
         private Dmuka3TableModel _model = null;
-        /*
-                this.Model.Table = this;
-*/
         /// <summary>
         /// <see cref="Dmuka3TableModel"/> is for communicating.
         /// </summary>
@@ -74,13 +71,13 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
                 this._attributes = value;
             }
         }
+        #endregion
 
         /// <summary>
         /// Javascript runtime.
         /// </summary>
         [Inject]
         IJSRuntime JSRuntime { get; set; }
-        #endregion
 
         /// <summary>
         /// It is for managing tables' ids.
@@ -119,12 +116,9 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// <returns></returns>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            await JSRuntime.InvokeVoidAsync("Dmuka3Table.Load", new object[] { this.tableId });
             if (firstRender)
-            {
-                await JSRuntime.InvokeAsync<bool>("Dmuka3Table.Load", new object[] { this.tableId });
-
                 await this.RefreshAsync();
-            }
         }
 
         /// <summary>
@@ -213,7 +207,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
                     rows.Add(row);
                 }
 
-                await JSRuntime.InvokeAsync<bool>("Dmuka3Table.Fill", new object[] { this.tableId, rows });
+                await JSRuntime.InvokeVoidAsync("Dmuka3Table.Fill", new object[] { this.tableId, rows });
                 this.Model.Loading = false;
                 this.StateHasChanged();
             }
@@ -223,14 +217,6 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
                 this.StateHasChanged();
                 throw;
             }
-        }
-
-        /// <summary>
-        /// This function provides to fill table by datas which are sended by developer who is using Dmuka3.
-        /// </summary>
-        public void Refresh()
-        {
-            this.RefreshAsync().RunSynchronously();
         }
 
         /// <summary>
