@@ -46,12 +46,10 @@
     </tr>
 </Dmuka3Table>
 
-<div>@test 111</div>
-
 <Dmuka3Mask Model="this.MaskModel"></Dmuka3Mask>
+<div>Mask : @this.MaskModel.Value</div>
+
+<br />
 
 <Dmuka3Number Model="this.NumberModel"></Dmuka3Number>
-
-@code {
-    string test = "";
-}
+<div>Number : @this.NumberModel.Value</div>

@@ -112,6 +112,9 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// <summary>
         /// This model is used for Dmuka3Mask.razor to receive and send datas between Dmuka3Mask and other component which uses Dmuka3Mask.
         /// </summary>
+        /// <param name="parent">
+        /// Which component uses Dmuka3Mask?
+        /// </param>
         /// <param name="pattern">
         /// ?    = All Characters
         /// <para></para>
@@ -138,6 +141,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// Change event.
         /// </param>
         public Dmuka3MaskModel(
+            ComponentBase parent,
             string pattern,
             string value = "",
             bool requiredFilling = false,
@@ -145,6 +149,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
             Func<Dmuka3Mask, Task> onChangeAsync = null
             )
         {
+            this.Parent = parent;
             this.Pattern = pattern;
             this.RequiredFilling = requiredFilling;
             this.Value = value;

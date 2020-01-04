@@ -97,14 +97,11 @@ namespace dmuka3.CS.Simple.BlazorBootstrap.TestServerApp.Pages
             {
                 if (this._maskModel == null)
                     this._maskModel = new Dmuka3MaskModel(
+                        parent: this,
                         pattern: "99.99.9999 99:99:99",
                         value: "11.08.2019 0",
-                        requiredFilling: true,
-                        onChange: m =>
-                        {
-                            this.test = m.Value;
-                            this.StateHasChanged();
-                        });
+                        requiredFilling: true);
+
                 return this._maskModel;
             }
         }
@@ -116,15 +113,12 @@ namespace dmuka3.CS.Simple.BlazorBootstrap.TestServerApp.Pages
             {
                 if (this._numberModel == null)
                     this._numberModel = new Dmuka3NumberModel(
+                        parent: this,
                         value: 123456.789m,
                         format: true,
                         decimalPlaces: 5,
-                        formatCharacters: new char[] { ',', '.' },
-                        onChange: m =>
-                        {
-                            this.test = (m.Value ?? 0).ToString();
-                            this.StateHasChanged();
-                        });
+                        formatCharacters: new char[] { ',', '.' });
+
                 return this._numberModel;
             }
         }

@@ -348,10 +348,13 @@
             Input's value.
             </summary>
         </member>
-        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel.#ctor(System.String,System.String,System.Boolean,System.Action{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask},System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask,System.Threading.Tasks.Task})">
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel.#ctor(Microsoft.AspNetCore.Components.ComponentBase,System.String,System.String,System.Boolean,System.Action{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask},System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask,System.Threading.Tasks.Task})">
             <summary>
             This model is used for Dmuka3Mask.razor to receive and send datas between Dmuka3Mask and other component which uses Dmuka3Mask.
             </summary>
+            <param name="parent">
+            Which component uses Dmuka3Mask?
+            </param>
             <param name="pattern">
             ?    = All Characters
             <para></para>
@@ -430,10 +433,13 @@
             Example = 123,456,789.321
             </summary>
         </member>
-        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.#ctor(System.Nullable{System.Decimal},System.Boolean,System.UInt16,System.Char[],System.Action{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number},System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number,System.Threading.Tasks.Task})">
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.#ctor(Microsoft.AspNetCore.Components.ComponentBase,System.Nullable{System.Decimal},System.Boolean,System.UInt16,System.Char[],System.Action{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number},System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number,System.Threading.Tasks.Task})">
             <summary>
             This model is used for Dmuka3Number.razor to receive and send datas between Dmuka3Number and other component which uses Dmuka3Number.
             </summary>
+            <param name="parent">
+            Which component uses Dmuka3Mask?
+            </param>
             <param name="value">
             Input's value.
             </param>

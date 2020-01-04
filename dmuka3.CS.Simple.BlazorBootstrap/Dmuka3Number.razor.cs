@@ -147,6 +147,8 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
 
             if (this.Model.OnChangeAsync != null)
                 await this.Model.OnChangeAsync(this);
+
+            Dmuka3Helper.StateHasChanged(this.Model.Parent);
         }
         #endregion
     }

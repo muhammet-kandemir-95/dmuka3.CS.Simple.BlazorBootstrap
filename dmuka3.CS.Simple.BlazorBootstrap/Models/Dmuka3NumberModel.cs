@@ -129,6 +129,9 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// <summary>
         /// This model is used for Dmuka3Number.razor to receive and send datas between Dmuka3Number and other component which uses Dmuka3Number.
         /// </summary>
+        /// <param name="parent">
+        /// Which component uses Dmuka3Mask?
+        /// </param>
         /// <param name="value">
         /// Input's value.
         /// </param>
@@ -150,6 +153,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// Change event.
         /// </param>
         public Dmuka3NumberModel(
+            ComponentBase parent,
             decimal? value = null,
             bool format = true,
             ushort decimalPlaces = 2,
@@ -158,6 +162,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
             Func<Dmuka3Number, Task> onChangeAsync = null
             )
         {
+            this.Parent = parent;
             this.DecimalPlaces = decimalPlaces;
             this.Format = format;
             if (formatCharacters != null)
