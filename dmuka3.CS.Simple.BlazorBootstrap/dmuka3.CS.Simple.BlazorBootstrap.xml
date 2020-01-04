@@ -71,6 +71,11 @@
             Dmuka3Mask component.
             </summary>
         </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.Model">
+            <summary>
+            <see cref="T:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel"/> is for communicating.
+            </summary>
+        </member>
         <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.Class">
             <summary>
             Mask's css classes on "class" attribute.
@@ -81,39 +86,9 @@
             Mask's attributes.
             </summary>
         </member>
-        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.Pattern">
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.Value">
             <summary>
-            ?    = All Characters
-            <para></para>
-            9    = Only Number
-            <para></para>
-            a, A = Only Letter Insensitive
-            <para></para>
-            l    = Only Lower Letter
-            <para></para>
-            L    = Only Upper Letter
-            <para></para>
-            Examples = ["99.99.9999 99:99", "L-99", "??LL99-AAA", ...]
-            </summary>
-        </member>
-        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.RequiredFilling">
-            <summary>
-            Required completely filling.
-            </summary>
-        </member>
-        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.DefaultValue">
-            <summary>
-            Input's default value for first instance.
-            </summary>
-        </member>
-        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.OnChangeAsync">
-            <summary>
-            Change event.
-            </summary>
-        </member>
-        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.OnChange">
-            <summary>
-            Change event.
+            Input's value.
             </summary>
         </member>
         <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.JSRuntime">
@@ -121,24 +96,24 @@
             Javascript runtime.
             </summary>
         </member>
-        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.Value">
-            <summary>
-            Input's value.
-            </summary>
-        </member>
         <member name="F:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.smaskId">
             <summary>
             It is for managing masks' ids.
             </summary>
         </member>
-        <member name="F:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.maskId">
+        <member name="F:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.MaskId">
             <summary>
             Mask's unique id.
             </summary>
         </member>
+        <member name="F:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.Loaded">
+            <summary>
+            Have component been loaded?
+            </summary>
+        </member>
         <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.#ctor">
             <summary>
-            Dmuka3Table component.
+            Dmuka3Mask component.
             </summary>
         </member>
         <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.OnAfterRenderAsync(System.Boolean)">
@@ -148,12 +123,6 @@
             <param name="firstRender"></param>
             <returns></returns>
         </member>
-        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.ValidateAsync">
-            <summary>
-            To validate last value by pattern.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.onChange(Microsoft.AspNetCore.Components.ChangeEventArgs)">
             <summary>
             Input's change event.
@@ -161,13 +130,68 @@
             <param name="e">Event parameter.</param>
             <returns></returns>
         </member>
-        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask.SetValueAsync(System.String)">
+        <member name="T:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number">
             <summary>
-            Set a value.
+            Dmuka3Number component.
             </summary>
-            <param name="value">
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number.Model">
+            <summary>
+            <see cref="T:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel"/> is for communicating.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number.Class">
+            <summary>
+            Number's css classes on "class" attribute.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number.Attributes">
+            <summary>
+            Number's attributes.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number.Value">
+            <summary>
             Input's value.
-            </param>
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number.JSRuntime">
+            <summary>
+            Javascript runtime.
+            </summary>
+        </member>
+        <member name="F:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number.snumberId">
+            <summary>
+            It is for managing numbers' ids.
+            </summary>
+        </member>
+        <member name="F:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number.NumberId">
+            <summary>
+            Number's unique id.
+            </summary>
+        </member>
+        <member name="F:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number.Loaded">
+            <summary>
+            Have component been loaded?
+            </summary>
+        </member>
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number.#ctor">
+            <summary>
+            Dmuka3Number component.
+            </summary>
+        </member>
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number.OnAfterRenderAsync(System.Boolean)">
+            <summary>
+            OnAfterRenderAsync method.
+            </summary>
+            <param name="firstRender"></param>
+            <returns></returns>
+        </member>
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number.onChange(Microsoft.AspNetCore.Components.ChangeEventArgs)">
+            <summary>
+            Input's change event.
+            </summary>
+            <param name="e">Event parameter.</param>
             <returns></returns>
         </member>
         <member name="T:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Table">
@@ -268,6 +292,168 @@
             Which column will be used?
             </param>
             <returns></returns>
+        </member>
+        <member name="T:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel">
+            <summary>
+            This model is used for Dmuka3Mask.razor to receive and send datas between Dmuka3Mask and other component which uses Dmuka3Mask.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel.Parent">
+            <summary>
+            Which component uses Dmuka3Mask?
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel.Mask">
+            <summary>
+            which Dmuka3Mask uses this class?
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel.Pattern">
+            <summary>
+            ?    = All Characters.
+            <para></para>
+            9    = Only Number.
+            <para></para>
+            a, A = Only Letter Insensitive.
+            <para></para>
+            l    = Only Lower Letter.
+            <para></para>
+            L    = Only Upper Letter.
+            <para></para>
+            Examples = ["99.99.9999 99:99", "L-99", "??LL99-AAA", ...].
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel.RequiredFilling">
+            <summary>
+            Required completely filling.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel.OnChangeAsync">
+            <summary>
+            Change event.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel.OnChange">
+            <summary>
+            Change event.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel.PreviousValue">
+            <summary>
+            Store previous value before formatting.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel.Value">
+            <summary>
+            Input's value.
+            </summary>
+        </member>
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3MaskModel.#ctor(System.String,System.String,System.Boolean,System.Action{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask},System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask,System.Threading.Tasks.Task})">
+            <summary>
+            This model is used for Dmuka3Mask.razor to receive and send datas between Dmuka3Mask and other component which uses Dmuka3Mask.
+            </summary>
+            <param name="pattern">
+            ?    = All Characters
+            <para></para>
+            9    = Only Number
+            <para></para>
+            a, A = Only Letter Insensitive
+            <para></para>
+            l    = Only Lower Letter
+            <para></para>
+            L    = Only Upper Letter
+            <para></para>
+            Examples = ["99.99.9999 99:99", "L-99", "??LL99-AAA", ...]
+            </param>
+            <param name="value">
+            Input's value.
+            </param>
+            <param name="requiredFilling">
+            Required completely filling.
+            </param>
+            <param name="onChange">
+            Change event.
+            </param>
+            <param name="onChangeAsync">
+            Change event.
+            </param>
+        </member>
+        <member name="T:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel">
+            <summary>
+            This model is used for Dmuka3Number.razor to receive and send datas between Dmuka3Number and other component which uses Dmuka3Number.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.Parent">
+            <summary>
+            Which component uses Dmuka3Number?
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.Number">
+            <summary>
+            which Dmuka3Number uses this class?
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.OnChangeAsync">
+            <summary>
+            Change event.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.OnChange">
+            <summary>
+            Change event.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.ValueAsString">
+            <summary>
+            Value as string.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.Value">
+            <summary>
+            Input's value.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.DecimalPlaces">
+            <summary>
+            Decimal places of input's value.
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.Format">
+            <summary>
+            Will value be formatted?
+            </summary>
+        </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.FormatCharacters">
+            <summary>
+            '123&lt;item[0]&gt;456&lt;item[0]&gt;789&lt;item[1]&gt;321
+            <para></para>
+            Example = 123,456,789.321
+            </summary>
+        </member>
+        <member name="M:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.#ctor(System.Nullable{System.Decimal},System.Boolean,System.UInt16,System.Char[],System.Action{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number},System.Func{dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number,System.Threading.Tasks.Task})">
+            <summary>
+            This model is used for Dmuka3Number.razor to receive and send datas between Dmuka3Number and other component which uses Dmuka3Number.
+            </summary>
+            <param name="value">
+            Input's value.
+            </param>
+            <param name="format">
+            Will value be formatted?
+            </param>
+            <param name="decimalPlaces">
+            Decimal places of input's value.
+            </param>
+            <param name="formatCharacters">
+            '123&lt;item[0]&gt;456&lt;item[0]&gt;789&lt;item[1]&gt;321
+            <para></para>
+            Example = 123,456,789.321
+            </param>
+            <param name="onChange">
+            Change event.
+            </param>
+            <param name="onChangeAsync">
+            Change event.
+            </param>
         </member>
         <member name="T:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel">
             <summary>

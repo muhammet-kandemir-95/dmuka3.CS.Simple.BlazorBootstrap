@@ -2,24 +2,25 @@
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace dmuka3.CS.Simple.BlazorBootstrap
 {
     /// <summary>
-    /// Dmuka3Mask component.
+    /// Dmuka3Number component.
     /// </summary>
-    public partial class Dmuka3Mask : ComponentBase
+    public partial class Dmuka3Number : ComponentBase
     {
         #region Variables
         #region Parameters
-        private Dmuka3MaskModel _model = null;
+        private Dmuka3NumberModel _model = null;
         /// <summary>
-        /// <see cref="Dmuka3MaskModel"/> is for communicating.
+        /// <see cref="Dmuka3NumberModel"/> is for communicating.
         /// </summary>
         [Parameter]
-        public Dmuka3MaskModel Model
+        public Dmuka3NumberModel Model
         {
             get
             {
@@ -31,19 +32,19 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
                     throw new NullReferenceException();
 
                 this._model = value;
-                this._model.Mask = this;
+                this._model.Number = this;
             }
         }
 
         /// <summary>
-        /// Mask's css classes on "class" attribute.
+        /// Number's css classes on "class" attribute.
         /// </summary>
         [Parameter]
         public string Class { get; set; }
 
         private Dictionary<string, object> _attributes = new Dictionary<string, object>();
         /// <summary>
-        /// Mask's attributes.
+        /// Number's attributes.
         /// </summary>
         [Parameter]
         public Dictionary<string, object> Attributes
@@ -65,7 +66,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// <summary>
         /// Input's value.
         /// </summary>
-        public string Value
+        public decimal? Value
         {
             get
             {
@@ -84,13 +85,13 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         internal IJSRuntime JSRuntime { get; set; }
 
         /// <summary>
-        /// It is for managing masks' ids.
+        /// It is for managing numbers' ids.
         /// </summary>
-        protected static ulong smaskId = 0;
+        protected static ulong snumberId = 0;
         /// <summary>
-        /// Mask's unique id.
+        /// Number's unique id.
         /// </summary>
-        internal ulong MaskId = 0;
+        internal ulong NumberId = 0;
         /// <summary>
         /// Have component been loaded?
         /// </summary>
@@ -99,11 +100,11 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
 
         #region Constructors
         /// <summary>
-        /// Dmuka3Mask component.
+        /// Dmuka3Number component.
         /// </summary>
-        public Dmuka3Mask()
+        public Dmuka3Number()
         {
-            this.MaskId = smaskId++;
+            this.NumberId = snumberId++;
         }
         #endregion
 
@@ -117,7 +118,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         {
             if (firstRender)
             {
-                await this.JSRuntime.InvokeVoidAsync("Dmuka3Mask.Load", new object[] { this.MaskId, this.Model.Pattern, this.Model.RequiredFilling, this.Model.Value, this.Model.PreviousValue });
+                await this.JSRuntime.InvokeVoidAsync("Dmuka3Number.Load", new object[] { this.NumberId, this.Model.Format, this.Model.FormatCharacters, this.Model.DecimalPlaces, this.Model.ValueAsString });
                 this.Loaded = true;
 
                 if (this.Model.OnChangeAsync != null)
@@ -132,7 +133,17 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// <returns></returns>
         protected async Task onChange(ChangeEventArgs e)
         {
-            this.Model.Value = (string)e.Value;
+            var valueStr = ((string)e.Value);
+            if (valueStr == "")
+                this.Model.Value = null;
+            else
+            {
+                valueStr = valueStr
+                                .Replace(this.Model.FormatCharacters[0].ToString(), "")
+                                .Replace(this.Model.FormatCharacters[1], '.');
+
+                this.Value = Convert.ToDecimal(valueStr, CultureInfo.InvariantCulture);
+            }
 
             if (this.Model.OnChangeAsync != null)
                 await this.Model.OnChangeAsync(this);

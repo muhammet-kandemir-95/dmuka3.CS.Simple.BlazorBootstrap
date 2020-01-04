@@ -29,7 +29,6 @@ window.Dmuka3Table = {
      * To fill table.
      * @param {any} tableId Dmuka3Table's unique id.
      * @param {any} rows New rows.
-     * @returns {null} Result.
      */
     'Fill': function (tableId, rows) {
         var $table = $('#dmuka3-table-' + tableId);
@@ -94,12 +93,11 @@ window.Dmuka3Table = {
     /**
      * To do somethings which are neccessary while loading.
      * @param {any} tableId Dmuka3Table's unique id.
-     * @returns {null} Result.
      */
     'Load': function (tableId) {
         var $table = $('#dmuka3-table-' + tableId);
         if ($table.data('__dmuka3table_isloaded') === true) {
-            return true;
+            return;
         }
         $table.data('__dmuka3table_isloaded', true);
 
@@ -119,21 +117,34 @@ window.Dmuka3Table = {
 
 // #region Dmuka3Mask
 window.Dmuka3Mask = {
-    'Set': function (maskId, value) {
+    /**
+     * To set input's value.
+     * @param {any} maskId Dmuka3Mask's unique id.
+     * @param {any} value New value.
+     * @param {any} previousValue Previous value before formatting.
+     */
+    'Set': function (maskId, value, previousValue) {
         var $mask = $('#dmuka3-mask-' + maskId);
         $mask.val(value);
-    },
-    'Validate': function (maskId) {
-        var $mask = $('#dmuka3-mask-' + maskId);
+        $mask.data('__dmuka3mask_previousValue', previousValue);
         $mask.data('__dmuka3mask_inputEvent')();
     },
-    'Load': function (maskId, pattern, requiredFilling, value) {
+    /**
+     * To do somethings which are neccessary while loading.
+     * @param {any} maskId Dmuka3Mask's unique id.
+     * @param {any} pattern Mask's pattern.
+     * @param {any} requiredFilling Mask's required filling.
+     * @param {any} value Default value.
+     * @param {any} previousValue Previous value before formatting.
+     */
+    'Load': function (maskId, pattern, requiredFilling, value, previousValue) {
         var $mask = $('#dmuka3-mask-' + maskId);
         if ($mask.data('__dmuka3mask_isloaded') === true) {
             return;
         }
         $mask.data('__dmuka3mask_isloaded', true);
 
+        $mask.data('__dmuka3mask_previousValue', previousValue);
         $mask.val(value);
 
         var inputEvent = function (e) {
@@ -235,16 +246,9 @@ window.Dmuka3Mask = {
         $mask.on('input', inputEvent);
 
         if (requiredFilling === true) {
-            if ($mask.val().length !== pattern.length) {
-                $mask.data('__dmuka3mask_previousValue', this.value);
-                $mask.val('');
-            }
-
             $mask.on('focusout', function (e) {
                 if (this.value.length !== pattern.length) {
-                    $mask.data('__dmuka3mask_previousValue', this.value);
                     this.value = '';
-                    $mask.trigger('change');
                 }
             }).on('focus', function (e) {
                 if (this.value.length === 0) {
@@ -254,6 +258,150 @@ window.Dmuka3Mask = {
                 }
             });
         }
+    }
+};
+// #endregion
+
+// #region Dmuka3Number
+window.Dmuka3Number = {
+    /**
+     * To set input's value.
+     * @param {any} numberId Dmuka3Number's unique id.
+     * @param {any} value New value.
+     */
+    'Set': function (numberId, value) {
+        var $number = $('#dmuka3-number-' + numberId);
+        $number.val(value);
+        $number.data('__dmuka3number_inputEvent')();
+    },
+    /**
+     * To do somethings which are neccessary while loading.
+     * @param {any} numberId Dmuka3Number's unique id.
+     * @param {any} format Will value be formatted?
+     * @param {any} formatCharacters Format characters.
+     * @param {any} decimalPlaces Decimal places.
+     * @param {any} value Default value.
+     */
+    'Load': function (numberId, format, formatCharacters, decimalPlaces, value) {
+        var $number = $('#dmuka3-number-' + numberId);
+        if ($number.data('__dmuka3number_isloaded') === true) {
+            return;
+        }
+        $number.data('__dmuka3number_isloaded', true);
+
+        $number.val(value);
+
+        var inputEvent = function (e) {
+            var val = this.value;
+            var newVal = '';
+            var cursorIndex = this.selectionStart;
+
+            var dotExist = false;
+            var decimalPlacesCounter = 0;
+            var pc = null;
+            for (var i = 0; i < val.length; i++) {
+                var c = val[i];
+
+                if (c >= '0' && c <= '9') {
+                    if (decimalPlacesCounter < decimalPlaces || decimalPlaces <= 0) {
+                        newVal += c;
+
+                        if (dotExist === true) {
+                            decimalPlacesCounter++;
+                        }
+                    }
+                } else if (format !== false) {
+                    if (c === formatCharacters[0]) {
+                        if (newVal.length !== 0 && c !== pc && dotExist === false) {
+                            newVal += c;
+                        } else if (i <= cursorIndex) {
+                            cursorIndex = Math.max(0, cursorIndex - 1);
+                        }
+                    } else if (c === formatCharacters[1]) {
+                        if (dotExist === false && pc !== formatCharacters[0] && decimalPlaces > 0) {
+                            newVal += c;
+                        } else if (i <= cursorIndex) {
+                            cursorIndex = Math.max(0, cursorIndex - 1);
+                        }
+                        dotExist = true;
+                    }
+                } else {
+                    if (c === '.') {
+                        if (dotExist === false) {
+                            newVal += c;
+                        }
+                        dotExist = true;
+                    }
+                }
+
+                if (newVal.length > 0) {
+                    pc = newVal[newVal.length - 1];
+                }
+            }
+
+            if (format !== false) {
+                var iop = newVal.indexOf(formatCharacters[1]);
+                var dotCounter = 4;
+                val = newVal;
+                if (iop >= 0) {
+                    newVal = newVal.substr(iop);
+                } else {
+                    newVal = '';
+                    iop = val.length;
+                }
+
+                for (var j = iop - 1; j >= 0; j--) {
+                    var d = val[j];
+
+                    if (dotCounter > 4) {
+                        dotCounter = 4;
+                    }
+                    dotCounter--;
+                    if (dotCounter < 0) {
+                        dotCounter = 4;
+                    }
+
+                    if (d === formatCharacters[0]) {
+                        if (dotCounter === 0) {
+                            newVal = d + newVal;
+                            dotCounter = 4;
+                        } else if (j <= cursorIndex) {
+                            dotCounter++;
+                            cursorIndex = Math.max(0, cursorIndex - 1);;
+                        }
+                    } else {
+                        if (dotCounter === 0) {
+                            newVal = formatCharacters[0] + newVal;
+                            if (j <= cursorIndex) {
+                                cursorIndex++;
+                            }
+                            dotCounter = 3;
+                        }
+                        newVal = d + newVal;
+                    }
+                }
+            }
+
+            if (val.length === cursorIndex) {
+                cursorIndex += 1;
+            }
+
+            if (this.value.length + 1 === newVal.length && newVal.length > 0 && (newVal[cursorIndex - 1] === formatCharacters[0] || newVal[cursorIndex - 1] === formatCharacters[1])) {
+                cursorIndex = Math.max(0, cursorIndex - 1);
+            }
+
+            this.value = newVal;
+            if (this.value.length > cursorIndex) {
+                this.selectionStart = cursorIndex;
+                this.selectionEnd = cursorIndex;
+            }
+        };
+        $number.data('__dmuka3number_inputEvent', function () {
+            inputEvent.call($number[0], { preventDefault: function () { } });
+        });
+        $number.data('__dmuka3number_inputEvent')();
+
+        $number.on('input', inputEvent);
     }
 };
 // #endregion

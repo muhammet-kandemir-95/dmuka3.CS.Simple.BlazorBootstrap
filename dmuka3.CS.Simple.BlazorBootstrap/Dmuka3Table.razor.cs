@@ -38,9 +38,6 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
                 if (value == null)
                     throw new NullReferenceException();
 
-                if (value.Table != this && value.Table != null)
-                    throw new Exception("This model has already been used before!");
-
                 this._model = value;
                 this._model.Table = this;
             }
@@ -116,9 +113,11 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// <returns></returns>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("Dmuka3Table.Load", new object[] { this.tableId });
             if (firstRender)
+            {
+                await JSRuntime.InvokeVoidAsync("Dmuka3Table.Load", new object[] { this.tableId });
                 await this.RefreshAsync();
+            }
         }
 
         /// <summary>

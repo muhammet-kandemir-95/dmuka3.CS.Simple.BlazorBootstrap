@@ -160,7 +160,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException($"{nameof(PageIndex)}must be positive!");
+                    throw new ArgumentOutOfRangeException($"{nameof(PageIndex)} must be positive!");
 
                 this._pageIndex = value;
             }
@@ -463,7 +463,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         {
             this.Parent = parent;
             this.UniqueKey = uniqueKey;
-            this.Columns = columns;
+            this.Columns = (Column[])columns.Clone();
             this.SingleSort = singleSort;
             this.PageIndex = pageIndex;
             this.RowCountOptions = rowCountOptions ?? RowCountOptionsStatic;

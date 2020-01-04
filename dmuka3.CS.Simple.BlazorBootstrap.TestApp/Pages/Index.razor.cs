@@ -17,13 +17,13 @@ namespace dmuka3.CS.Simple.BlazorBootstrap.TestApp.Pages
         protected string SearchName = "";
         protected string SearchSurname = "";
 
-        protected Dmuka3TableModel _model = null;
-        protected Dmuka3TableModel Model
+        protected Dmuka3TableModel _tableModel = null;
+        protected Dmuka3TableModel TableModel
         {
             get
             {
-                if (this._model == null)
-                    this._model = new Dmuka3TableModel(
+                if (this._tableModel == null)
+                    this._tableModel = new Dmuka3TableModel(
                         parent: this,
                         uniqueKey: "id",
                         rowCountOptions: new int[] { 5, 10, 20 },
@@ -33,6 +33,16 @@ namespace dmuka3.CS.Simple.BlazorBootstrap.TestApp.Pages
                             new Dmuka3TableModel.Column("name", "Name", Dmuka3TableModel.SortType.Asc),
                             new Dmuka3TableModel.Column("surname", "Surname", Dmuka3TableModel.SortType.None),
                             new Dmuka3TableModel.Column("#")
+                        },
+                        columnEventsAsync: new Dictionary<string, Func<Dmuka3TableModel, string, string, Task>>()
+                        {
+                            {
+                                "test",
+                                async (m, id, json) =>
+                                {
+                                    await Dmuka3Helper.AlertJS(this.JSRuntime, id);
+                                }
+                            }
                         },
                         onRefreshAsync: async (Dmuka3TableModel m) =>
                         {
@@ -76,7 +86,46 @@ namespace dmuka3.CS.Simple.BlazorBootstrap.TestApp.Pages
                             return (rows: ieresult, totalRowCount: totalRowCount);
                         });
 
-                return this._model;
+                return this._tableModel;
+            }
+        }
+
+        protected Dmuka3MaskModel _maskModel = null;
+        protected Dmuka3MaskModel MaskModel
+        {
+            get
+            {
+                if (this._maskModel == null)
+                    this._maskModel = new Dmuka3MaskModel(
+                        pattern: "99.99.9999 99:99:99",
+                        value: "11.08.2019 0",
+                        requiredFilling: true,
+                        onChange: m =>
+                        {
+                            this.test = m.Value;
+                            this.StateHasChanged();
+                        });
+                return this._maskModel;
+            }
+        }
+
+        protected Dmuka3NumberModel _numberModel = null;
+        protected Dmuka3NumberModel NumberModel
+        {
+            get
+            {
+                if (this._numberModel == null)
+                    this._numberModel = new Dmuka3NumberModel(
+                        value: 123456.789m,
+                        format: true,
+                        decimalPlaces: 5,
+                        formatCharacters: new char[] { ',', '.' },
+                        onChange: m =>
+                        {
+                            this.test = (m.Value ?? 0).ToString();
+                            this.StateHasChanged();
+                        });
+                return this._numberModel;
             }
         }
     }

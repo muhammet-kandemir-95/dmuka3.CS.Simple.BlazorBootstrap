@@ -2,7 +2,7 @@
 
 <h1>Web Assembly!</h1>
 
-<Dmuka3Table Model="this.Model">
+<Dmuka3Table Model="this.TableModel">
     <tr data-body data-id="{{id}}">
         <td class="test">{{id}}</td>
         <td>{{name}}</td>
@@ -22,24 +22,24 @@
             <input @oninput="(async e =>
                              {
                                  SearchId = (string)e.Value;
-                                 this.Model.PageIndex = 0;
-                                 await this.Model.RefreshAsync();
+                                 this.TableModel.PageIndex = 0;
+                                 await this.TableModel.RefreshAsync();
                              })" />
         </td>
         <td>
             <input @oninput="(async e =>
                              {
                                  SearchName = (string)e.Value;
-                                 this.Model.PageIndex = 0;
-                                 await this.Model.RefreshAsync();
+                                 this.TableModel.PageIndex = 0;
+                                 await this.TableModel.RefreshAsync();
                              })" />
         </td>
         <td>
             <input @oninput="(async e =>
                              {
                                  SearchSurname = (string)e.Value;
-                                 this.Model.PageIndex = 0;
-                                 await this.Model.RefreshAsync();
+                                 this.TableModel.PageIndex = 0;
+                                 await this.TableModel.RefreshAsync();
                              })" />
         </td>
         <td></td>
@@ -48,7 +48,9 @@
 
 <div>@test 111</div>
 
-<Dmuka3Mask Pattern="99.99.9999 99:99:99" DefaultValue="11.08.2019 00:00:00" RequiredFilling="true" OnChange="(m => { this.test = m.Value; this.StateHasChanged(); })"></Dmuka3Mask>
+<Dmuka3Mask Model="this.MaskModel"></Dmuka3Mask>
+
+<Dmuka3Number Model="this.NumberModel"></Dmuka3Number>
 
 @code {
     string test = "";
