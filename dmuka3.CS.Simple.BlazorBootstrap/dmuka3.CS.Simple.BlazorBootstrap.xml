@@ -426,6 +426,11 @@
             Will value be formatted?
             </summary>
         </member>
+        <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.FormatCharactersStatic">
+            <summary>
+            You can change default <see cref="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.FormatCharacters"/> by setting this.
+            </summary>
+        </member>
         <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3NumberModel.FormatCharacters">
             <summary>
             '123&lt;item[0]&gt;456&lt;item[0]&gt;789&lt;item[1]&gt;321
@@ -438,7 +443,7 @@
             This model is used for Dmuka3Number.razor to receive and send datas between Dmuka3Number and other component which uses Dmuka3Number.
             </summary>
             <param name="parent">
-            Which component uses Dmuka3Mask?
+            Which component uses Dmuka3Number?
             </param>
             <param name="value">
             Input's value.
@@ -582,7 +587,7 @@
         </member>
         <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.RowCountOptionsStatic">
             <summary>
-            You can change default <see cref="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.RowCountOptions"/> Options by setting this.
+            You can change default <see cref="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.RowCountOptions"/> by setting this.
             </summary>
         </member>
         <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.RowCountOptions">
@@ -592,7 +597,7 @@
         </member>
         <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.RowCountLabelStatic">
             <summary>
-            You can change default <see cref="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.RowCountLabel"/> Label by setting this.
+            You can change default <see cref="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.RowCountLabel"/> by setting this.
             </summary>
         </member>
         <member name="P:dmuka3.CS.Simple.BlazorBootstrap.Dmuka3TableModel.RowCountLabel">
