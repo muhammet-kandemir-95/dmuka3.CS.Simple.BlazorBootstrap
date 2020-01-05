@@ -142,7 +142,14 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
                                 .Replace(this.Model.FormatCharacters[0].ToString(), "")
                                 .Replace(this.Model.FormatCharacters[1], '.');
 
-                this.Value = Convert.ToDecimal(valueStr, CultureInfo.InvariantCulture);
+                try
+                {
+                    this.Value = Convert.ToDecimal(valueStr, CultureInfo.InvariantCulture);
+                }
+                catch
+                {
+                    this.Value = null;
+                }
             }
 
             if (this.Model.OnChangeAsync != null)
