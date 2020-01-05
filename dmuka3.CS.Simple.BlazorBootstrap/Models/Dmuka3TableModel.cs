@@ -198,7 +198,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         }
         private static int[] __rowCountOptionsStatic = new int[] { 10, 20, 50, 100 };
         /// <summary>
-        /// You can change default <see cref="RowCountOptions"/> Options by setting this.
+        /// You can change default <see cref="RowCountOptions"/> by setting this.
         /// </summary>
         public static int[] RowCountOptionsStatic
         {
@@ -245,7 +245,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
             }
         }
         /// <summary>
-        /// You can change default <see cref="RowCountLabel"/> Label by setting this.
+        /// You can change default <see cref="RowCountLabel"/> by setting this.
         /// </summary>
         public static string RowCountLabelStatic { get; set; } = "Row Count : ";
         /// <summary>

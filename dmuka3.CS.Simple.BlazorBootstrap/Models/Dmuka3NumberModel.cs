@@ -99,7 +99,30 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// </summary>
         public bool Format { get; private set; }
 
-        private char[] _formatCharacters = new char[] { ',', '.' };
+        private static char[] __formatCharactersStatic = new char[] { ',', '.' };
+        /// <summary>
+        /// You can change default <see cref="FormatCharacters"/> by setting this.
+        /// </summary>
+        public static char[] FormatCharactersStatic
+        {
+            get
+            {
+                return __formatCharactersStatic;
+            }
+            set
+            {
+                if (value == null)
+                    throw new NullReferenceException();
+                if (value.Length != 2)
+                    throw new Exception($"{nameof(FormatCharacters)} length must be 2!");
+                if (value[0] == value[1])
+                    throw new Exception($"{nameof(FormatCharacters)} values must be different!");
+
+                __formatCharactersStatic = value;
+            }
+        }
+
+        private char[] _formatCharacters = null;
         /// <summary>
         /// '123&lt;item[0]&gt;456&lt;item[0]&gt;789&lt;item[1]&gt;321
         /// <para></para>
@@ -130,7 +153,7 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
         /// This model is used for Dmuka3Number.razor to receive and send datas between Dmuka3Number and other component which uses Dmuka3Number.
         /// </summary>
         /// <param name="parent">
-        /// Which component uses Dmuka3Mask?
+        /// Which component uses Dmuka3Number?
         /// </param>
         /// <param name="value">
         /// Input's value.
@@ -167,6 +190,8 @@ namespace dmuka3.CS.Simple.BlazorBootstrap
             this.Format = format;
             if (formatCharacters != null)
                 this.FormatCharacters = formatCharacters;
+            else
+                this.FormatCharacters = FormatCharactersStatic;
             this.Value = value;
             if (onChange != null)
                 this.OnChange = onChange;

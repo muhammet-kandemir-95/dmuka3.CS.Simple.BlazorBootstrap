@@ -9,6 +9,7 @@
     <PackageProjectUrl>https://github.com/muhammet-kandemir-95/dmuka3.CS.Simple.BlazorBootstrap</PackageProjectUrl>
     <RepositoryUrl>https://github.com/muhammet-kandemir-95/dmuka3.CS.Simple.BlazorBootstrap</RepositoryUrl>
     <PackageTags>c#,core,blazor,simple,blazorbootstrap</PackageTags>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
