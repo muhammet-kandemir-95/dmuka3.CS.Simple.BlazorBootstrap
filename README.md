@@ -2,11 +2,26 @@
 
  This library provides you to make somethings(Making a table, a mask input, a number input, ...) easily on Bootstrap 4+.
  
+ ## Nuget
+ 
+ **Link** : https://www.nuget.org/packages/dmuka3.CS.Simple.BlazorBootstrap
+ ```nuget
+ Install-Package dmuka3.CS.Simple.BlazorBootstrap
+ ```
+ 
+## Script
+
+ You must add this link in end of body.
+
+```html
+<script src="_content/dmuka3.CS.Simple.BlazorBootstrap/general.js"></script>
+```
+ 
 ## dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Table
 
  This component creates a HTML Table by bootstrap. Let's look at how to use;
  
- First of all, we have to a list to show on list.
+ First of all, we have to create a list to show on table.
  
 ```csharp
 public class TestDataModel
@@ -32,7 +47,7 @@ public class TestDataModel
 }
 ```
 
- Secondly, we need to create a **Dmuka3TableModel** for communicating.
+ Secondly, we need to create a **Dmuka3TableModel** for communicating between Dmuka3TableComponent and other component which uses this model.
  
 ```csharp
 public partial class Index : ComponentBase
@@ -119,7 +134,7 @@ public partial class Index : ComponentBase
 }
 ```
 
- You can say it's confusing. Don't worry! You just need to more information to understand. To begin with, you can look at comments moving your cursor to over what you want to learn. If you don't understand still, let's check it together;
+ You may say it's confusing. Don't worry! You just need to more information to understand. To begin with, you can look at comments by moving your cursor to over what you want to learn. If you don't understand still, let's check it together;
  
 ```csharp
 /// <summary>
@@ -188,10 +203,18 @@ public Dmuka3TableModel(
     )
 ```
 
- There are many descriptions above. Let's move on example. Now, we will use our model on razor;
+ There are many descriptions above. You can also change default values on some fields.
+ 
+|Field|Where is default value at?|Default Value|
+|:--:|:--:|:--:|
+|rowCountOptions|Dmuka3TableModel.RowCountOptionsStatic|new int[] { 10, 20, 50, 100 }|
+|rowCountLabel|Dmuka3TableModel.RowCountLabelStatic|"Row Count : "|
+|searchLabel|Dmuka3TableModel.SearchLabelStatic|"Search : "|
+ 
+ Let's move on example. Now, we will use our model on razor;
  
 ```razor
-<Dmuka3Table Model="this.TableModel">
+<Dmuka3Table Model="this.TableModel" Class="my-table-class" Attributes="@(new Dictionary<string, object> { { "width", "100%" } })">
     <tr data-body data-id="{{id}}">
         <td class="test">{{id}}</td>
         <td>{{name}}</td>
@@ -252,3 +275,99 @@ public Dmuka3TableModel(
 ### data-foot
 
  It is usually used for searching. It is added to footer of table after rendered. You can use all of blazor commands here.
+
+ There are also two new attributes.
+
+### Class
+
+ It is for changing table class.
+ 
+### Attributes
+
+ It is for adding new attributes to table.
+
+## dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Mask
+
+ This component creates a HTML Mask Input by bootstrap. Let's look at how to use;
+ 
+ First of all, we need to create a **Dmuka3TableMask** for communicating between Dmuka3MaskComponent and other component which uses this model.
+ 
+```csharp
+public partial class Index : ComponentBase
+{
+    [Inject]
+    IJSRuntime JSRuntime { get; set; }
+
+    protected Dmuka3MaskModel _maskModel = null;
+    protected Dmuka3MaskModel MaskModel
+    {
+        get
+        {
+            if (this._maskModel == null)
+                this._maskModel = new Dmuka3MaskModel(
+                    parent: this,
+                    pattern: "99.99.9999 99:99:99",
+                    value: "11.08.1995 13:00:00",
+                    requiredFilling: true);
+
+            return this._maskModel;
+        }
+    }
+}
+```
+
+ To begin with, you can look at comments by moving your cursor to over what you want to learn. If you don't understand still, let's check it together;
+
+```csharp
+/// <summary>
+/// This model is used for Dmuka3Mask.razor to receive and send datas between Dmuka3Mask and other component which uses Dmuka3Mask.
+/// </summary>
+/// <param name="parent">
+/// Which component uses Dmuka3Mask?
+/// </param>
+/// <param name="pattern">
+/// ?    = All Characters
+/// <para></para>
+/// 9    = Only Number
+/// <para></para>
+/// a, A = Only Letter Insensitive
+/// <para></para>
+/// l    = Only Lower Letter
+/// <para></para>
+/// L    = Only Upper Letter
+/// <para></para>
+/// Examples = ["99.99.9999 99:99", "L-99", "??LL99-AAA", ...]
+/// </param>
+/// <param name="value">
+/// Input's value.
+/// </param>
+/// <param name="requiredFilling">
+/// Required completely filling.
+/// </param>
+/// <param name="onChange">
+/// Change event.
+/// </param>
+/// <param name="onChangeAsync">
+/// Change event.
+/// </param>
+public Dmuka3MaskModel(
+    ComponentBase parent,
+    string pattern,
+    string value = "",
+    bool requiredFilling = false,
+    Action<Dmuka3Mask> onChange = null,
+    Func<Dmuka3Mask, Task> onChangeAsync = null
+    )
+```
+
+ There are many descriptions above. Let's move on example. Now, we will use our model on razor;
+ 
+```razor
+<Dmuka3Mask Model="this.MaskModel" Class="my-mask-class" Attributes="@(new Dictionary<string, object> { { "width", "100%" } })"></Dmuka3Mask>
+```
+
+ Here is a question. How can I get the value? You just need to use "**Model.Value**".
+ 
+```csharp
+var maskValue = this.MaskModel.Value;
+```
