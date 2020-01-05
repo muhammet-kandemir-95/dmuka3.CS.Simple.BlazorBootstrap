@@ -371,3 +371,109 @@ public Dmuka3MaskModel(
 ```csharp
 var maskValue = this.MaskModel.Value;
 ```
+
+### Class
+
+ It is for changing input class.
+ 
+### Attributes
+
+ It is for adding new attributes to input.
+ 
+
+## dmuka3.CS.Simple.BlazorBootstrap.Dmuka3Number
+
+ This component creates a HTML Number Input by bootstrap. Let's look at how to use;
+ 
+ First of all, we need to create a **Dmuka3TableNumber** for communicating between Dmuka3NumberComponent and other component which uses this model.
+ 
+```csharp
+public partial class Index : ComponentBase
+{
+    [Inject]
+    IJSRuntime JSRuntime { get; set; }
+
+    protected Dmuka3NumberModel _numberModel = null;
+    protected Dmuka3NumberModel NumberModel
+    {
+        get
+        {
+            if (this._numberModel == null)
+                this._numberModel = new Dmuka3NumberModel(
+                    parent: this,
+                    value: 123456.789m,
+                    format: true,
+                    decimalPlaces: 5,
+                    formatCharacters: new char[] { ',', '.' });
+
+            return this._numberModel;
+        }
+    }
+}
+```
+
+ To begin with, you can look at comments by moving your cursor to over what you want to learn. If you don't understand still, let's check it together;
+
+```csharp
+/// <summary>
+/// This model is used for Dmuka3Number.razor to receive and send datas between Dmuka3Number and other component which uses Dmuka3Number.
+/// </summary>
+/// <param name="parent">
+/// Which component uses Dmuka3Number?
+/// </param>
+/// <param name="value">
+/// Input's value.
+/// </param>
+/// <param name="format">
+/// Will value be formatted?
+/// </param>
+/// <param name="decimalPlaces">
+/// Decimal places of input's value.
+/// </param>
+/// <param name="formatCharacters">
+/// '123&lt;item[0]&gt;456&lt;item[0]&gt;789&lt;item[1]&gt;321
+/// <para></para>
+/// Example = 123,456,789.321
+/// </param>
+/// <param name="onChange">
+/// Change event.
+/// </param>
+/// <param name="onChangeAsync">
+/// Change event.
+/// </param>
+public Dmuka3NumberModel(
+    ComponentBase parent,
+    decimal? value = null,
+    bool format = true,
+    ushort decimalPlaces = 2,
+    char[] formatCharacters = null,
+    Action<Dmuka3Number> onChange = null,
+    Func<Dmuka3Number, Task> onChangeAsync = null
+    )
+```
+
+ There are many descriptions above. You can also change default values on some fields.
+ 
+|Field|Where is default value at?|Default Value|
+|:--:|:--:|:--:|
+|formatCharacters|Dmuka3NumberModel.FormatCharactersStatic|new char[] { ',', '.' }|
+ 
+ Let's move on example. Now, we will use our model on razor;
+ 
+```razor
+<Dmuka3Number Model="this.NumberModel" Class="my-number-class" Attributes="@(new Dictionary<string, object> { { "width", "100%" } })"></Dmuka3Number>
+```
+
+ Here is a question. How can I get the value? You just need to use "**Model.Value**".
+ 
+```csharp
+var numberValue = this.NumberModel.Value;
+```
+
+### Class
+
+ It is for changing input class.
+ 
+### Attributes
+
+ It is for adding new attributes to input.
