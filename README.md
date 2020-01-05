@@ -1,6 +1,6 @@
 # dmuka3.CS.Simple.BlazorBootstrap
 
- This library provides you to make somethings(Making a table, a mask input, a number input, ...) easily on Bootstrap 4+.
+ This library provides you to make somethings(Making a table, a mask input, a number input, ...) easily on Bootstrap 4+ and jQuery.
  
  ## Nuget
  
